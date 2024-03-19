@@ -33,7 +33,7 @@ config_params_s init_config() {
     c.wait_for_device = 1; // default to exit if device disconnected
     c.wait_packets = 1024; // default zero-byte attempts to disconnect (about 2
     // sec for default idle_ms)
-    c.audio_enabled = 0;   // route M8 audio to default output
+    c.audio_enabled = 1;   // route M8 audio to default output
     c.audio_buffer_size = 1024; // requested audio buffer size in samples
     c.audio_device_name = NULL; // Use this device, leave NULL to use the default output device
 

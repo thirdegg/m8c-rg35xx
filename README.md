@@ -17,25 +17,25 @@ All interaction occurs through `libusb`, M8 command reception has been rewritten
 git clone git@github.com:edemirkan/rg35xx-toolchain.git toolchain
 cd toolchain
 
-# Run container with toolchain
+# Clone project with deps
 mkdir workspace
+git clone git@github.com:thirdegg/m8c-rg35xx workspace/m8c-rg35xx
+git clone git@github.com:ferzkopp/SDL_gfx.git workspace/m8c-rg35xx/deps/SDL_gfx
+git clone git@github.com:libusb/libusb.git workspace/m8c-rg35xx/deps/libusb
+
+# Run container with toolchain
 make shell
 
-# Clone project
-git clone git@github.com:thirdegg/m8c-rg35xx m8c-rg35xx
-cd m8c-rg35xx
-
-# Clone and build SDL_gfx
-git clone git@github.com:ferzkopp/SDL_gfx.git deps/SDL_gfx
-cd deps/SDL_gfx
+# Build SDL_gfx
+cd m8c-rg35xx/deps/SDL_gfx
 ./configure --host=arm-linux --enable-mmx=no --enable-shared=no
 make
 cd -
 
-# Clone and build libusb
-git clone git@github.com:libusb/libusb.git deps/libusb
-cd deps/libusb
-./configure --host=arm-linux 
+# Build libusb
+cd m8c-rg35xx/deps/libusb
+apt install -y libtool
+./autogen.sh --host arm-linux --enable-udev=no --enable-shared=no
 make
 cd -
 
@@ -47,7 +47,7 @@ exit
 ## Running
 
 1) Create a folder named `m8c/` on the flash drive in `Roms/APPS/`.
-2) Copy the executable file `m8c` from the `workspace/` folder into it.
+2) Copy the executable file `m8c` from the `toolchain/workspace/m8c-rg35xx` folder into it.
 3) Create a file `m8c.sh` in the `Roms/APPS/` folder with the following contents:
 ```sh
 #!/bin/sh
